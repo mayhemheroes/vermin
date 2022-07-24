@@ -318,7 +318,7 @@ test.py:6:9:2.7:3.2:'argparse' module
     processor = Processor()
     (mins, _incomp, _unique_versions, backports, used_novermin, maybe_anns) =\
       processor.process(paths, self.config)
-    self.assertOnlyIn(((2, 7), (3, 0)), mins)
+    self.assertOnlyIn((3, 0), mins)
     self.assertEmpty(backports)
     self.assertTrue(used_novermin)
     self.assertFalse(maybe_anns)
@@ -329,7 +329,7 @@ test.py:6:9:2.7:3.2:'argparse' module
     self.config.set_format(ParsableFormat())
     (mins, _incomp, _unique_versions, backports, used_novermin, maybe_anns) =\
       processor.process(paths, self.config)
-    self.assertOnlyIn(((2, 7), (3, 0)), mins)
+    self.assertOnlyIn((3, 0), mins)
     self.assertEmpty(backports)
     self.assertTrue(used_novermin)
     self.assertFalse(maybe_anns)
