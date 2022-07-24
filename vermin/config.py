@@ -1,12 +1,7 @@
 import io
 import sys
 import os
-
-# novm
-try:
-  from configparser import ConfigParser, ParsingError
-except ImportError:
-  from ConfigParser import SafeConfigParser as ConfigParser, ParsingError
+from configparser import ConfigParser, ParsingError  # novm
 
 from .backports import Backports
 from .features import Features
@@ -109,7 +104,7 @@ class Config:
       return "\n".join(iterable)
 
     # Parser with default values from initial instance.
-    parser = ConfigParser({
+    args = {
       "quiet": str(config.quiet()),
       "verbose": str(config.verbose()),
       "print_visits": str(config.print_visits()),
@@ -127,11 +122,15 @@ class Config:
       "parse_comments": str(config.parse_comments()),
       "scan_symlink_folders": str(config.scan_symlink_folders()),
       "format": config.format().name(),
-    }, allow_no_value=True)
+    }
+    if sys.version_info < (3, 2):
+      parser = ConfigParser(args)
+    else:
+      parser = ConfigParser(args, allow_no_value=True)  # novm
 
     try:
       if sys.version_info < (3, 2):
-        parser.readfp(fp, filename=filename)  # pylint: disable=deprecated-method
+        parser.readfp(fp, filename=filename)  # pylint: disable=deprecated-method  # novm
       else:
         # `read_file` supercedes `readfp` since 3.2.
         def readline_generator(fp):
@@ -139,7 +138,7 @@ class Config:
           while line:
             yield line
             line = fp.readline()
-        parser.read_file(readline_generator(fp), source=filename)
+        parser.read_file(readline_generator(fp), source=filename)  # novm
     except Exception as ex:
       print("Could not load config: {}".format(filename))
       print(ex)
@@ -222,7 +221,7 @@ folders until root or project boundaries are reached. Each candidate is checked 
           try:
             cp = ConfigParser()
             parse_success_files = cp.read(look_for) if sys.version_info < (3, 2) \
-              else cp.read(look_for, encoding="utf-8")
+              else cp.read(look_for, encoding="utf-8")  # novm
             if look_for in parse_success_files and cp.has_section(CONFIG_SECTION):
               return look_for
           except ParsingError:
