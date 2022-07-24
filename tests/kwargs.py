@@ -695,7 +695,6 @@ Signature.from_callable(localns=True)
   def test_opener_of_open(self):
     self.assertOnlyIn((3, 3), self.detect("open(opener=None)"))
 
-  @VerminTest.skipUnlessVersion(3)
   def test_flush_of_print(self):
     # `print()` is not a function in v2.
     self.assertOnlyIn((3, 3), self.detect("print(flush=None)"))
