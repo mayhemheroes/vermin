@@ -19,7 +19,7 @@ class ProcessResult:
     self.maybe_annotations = False
 
 class Processor:
-  def process(self, paths, config, processes=mp.cpu_count()):  # pylint: disable=no-self-use
+  def process(self, paths, config, processes=mp.cpu_count()):
     assert(config is not None)
     unique_versions = set()
     all_backports = set()
