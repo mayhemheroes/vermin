@@ -20,7 +20,7 @@ class ProcessResult:
 
 class Processor:
   def process(self, paths, config, processes=mp.cpu_count()):
-    assert(config is not None)
+    assert config is not None
     unique_versions = set()
     all_backports = set()
     used_novermin = False
