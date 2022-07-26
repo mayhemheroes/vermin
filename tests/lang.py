@@ -2031,3 +2031,30 @@ class Foo:
 """)
     self.assertFalse(visitor.super_no_args())
     self.assertOnlyIn(((2, 2), (3, 0)), visitor.minimum_versions())
+
+  def test_metaclass_class_keyword(self):
+    visitor = self.visit("""
+class Foo(metaclass="foo"):
+  pass
+""")
+    self.assertTrue(visitor.metaclass_class_keyword())
+    self.assertOnlyIn((3, 0), visitor.minimum_versions())
+
+    visitor = self.visit("""
+class Foo(other="foo"):
+  pass
+""")
+    self.assertFalse(visitor.metaclass_class_keyword())
+    self.assertEqual([(0, 0), (0, 0)], visitor.minimum_versions())
+
+    visitor = self.visit("class Foo: pass")
+    self.assertFalse(visitor.metaclass_class_keyword())
+    self.assertEqual([(0, 0), (0, 0)], visitor.minimum_versions())
+
+    # Py2 variant not using keyword.
+    visitor = self.visit("""
+class Foo:
+  __metaclass__ = "foo"
+""")
+    self.assertFalse(visitor.metaclass_class_keyword())
+    self.assertEqual([(0, 0), (0, 0)], visitor.minimum_versions())
