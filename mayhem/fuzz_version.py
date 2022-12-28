@@ -3,7 +3,7 @@ import atheris
 import sys
 import fuzz_helpers
 
-with atheris.instrument_imports():
+with atheris.instrument_imports(include=['vermin']):
   import vermin
 
 
