@@ -10,7 +10,10 @@ with atheris.instrument_imports():
 def TestOneInput(data):
     fdp = fuzz_helpers.EnhancedFuzzedDataProvider(data)
     try:
-      vermin.version_strings(vermin.detect(fdp.ConsumeRemainingString()))
+      if fdp.ConsumeBool():
+        vermin.version_strings(vermin.detect(fdp.ConsumeRemainingString()))
+      else:
+        vermin.visit(fdp.ConsumeRemainingString())
     except (vermin.InvalidVersionException, UnicodeDecodeError, SyntaxError):
       return -1
     except ValueError as e:
