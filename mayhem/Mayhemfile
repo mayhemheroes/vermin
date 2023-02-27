@@ -1,0 +1,9 @@
+project: vermin
+target: parse-version
+testsuite:
+    - file://mayhem/testsuite
+
+cmds:
+  - cmd: /src/mayhem/fuzz_version.py
+    libfuzzer: true
+    timeout: 10
