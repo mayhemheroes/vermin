@@ -1,0 +1,13 @@
+# Mayhem target: vermin minimum-Python-version detector (Atheris/libFuzzer harness).
+# The cmd binary is the compiled ELF launcher that drives mayhem/fuzz_version.py; Atheris
+# instruments the vermin library so the run records coverage (edges).
+project: vermin
+target: parse-version
+
+cmds:
+  - cmd: /mayhem/vermin_fuzzer
+    libfuzzer: true
+
+# Seed corpus of small Python source snippets (file:// seeds, per the Mayhemfile schema).
+testsuite:
+  - file:///mayhem/mayhem/seeds
